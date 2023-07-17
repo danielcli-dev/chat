@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   StyleSheet,
   View,
@@ -17,24 +17,30 @@ const Screen1 = ({ navigation }) => {
   const image = require("../assets/BackgroundImage.png");
   const icon = require("../assets/profile.png");
 
+  useEffect(() => {
+    navigation.setOptions({ title: "Chat App" });
+  }, []);
+
   return (
     // <ScrollView style={{ height: "100%" }}>
-      <ImageBackground source={image} resizeMode="cover" style={styles.image}>
-        <View style={styles.container}>
-          <View style={styles.titleBox}>
-            <Text style={styles.appTitle}>App Title</Text>
+
+    <ImageBackground source={image} resizeMode="cover" style={styles.image}>
+      <View style={styles.container}>
+        <View style={styles.titleBox}>
+          <Text style={styles.appTitle}>Chat App</Text>
+        </View>
+        <View style={styles.actionBox}>
+          <View style={styles.inputBox}>
+            <Image style={styles.icon} source={icon} />
+            <TextInput
+              style={styles.input}
+              value={name}
+              onChangeText={setName}
+              placeholder="Your Name"
+            />
           </View>
-          <View style={styles.actionBox}>
-            <View style={styles.inputBox}>
-              <Image style={styles.icon} source={icon} />
-              <TextInput
-                style={styles.input}
-                value={name}
-                onChangeText={setName}
-                placeholder="Type your username here"
-              />
-            </View>
-            <Text>Choose Background Color:</Text>
+          <View>
+            <Text style={styles.actionText}>Choose Background Color:</Text>
             <View style={styles.colorOptionContainer}>
               <View
                 style={[
@@ -89,17 +95,18 @@ const Screen1 = ({ navigation }) => {
                 />
               </View>
             </View>
-            <Button
-              style={styles.button}
-              title="Start Chatting"
-              onPress={() =>
-                navigation.navigate("Screen2", { name: name, color: color })
-              }
-            />
           </View>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() =>
+              navigation.navigate("Screen2", { name: name, color: color })
+            }
+          >
+            <Text style={styles.buttonText}>Start Chatting</Text>
+          </TouchableOpacity>
         </View>
-      </ImageBackground>
-    // </ScrollView>
+      </View>
+    </ImageBackground>
   );
 };
 
@@ -125,41 +132,44 @@ const styles = StyleSheet.create({
   },
 
   actionBox: {
-    flex: 1,
+    height: "44%",
     alignItems: "center",
     backgroundColor: "#FFFFFF",
     width: "88%",
     justifyContent: "space-evenly",
+    // paddingVertical: 10
+  },
+
+  inputBox: {
+    width: "88%",
+    padding: 15,
+    borderWidth: 1.5,
+    // marginTop: 1,
+    // marginBottom: 15,
+    fontSize: 16,
+    color: "#757083",
+    flexDirection: "row",
+    borderColor: "#757083",
+    opacity: 0.5,
+    borderRadius: 2,
   },
   icon: {
     width: 30,
     height: 30,
     opacity: 0.5,
-  },
-  inputBox: {
-    width: "88%",
-    padding: 15,
-    borderWidth: 1,
-    marginTop: 15,
-    marginBottom: 15,
-    fontSize: 16,
-    color: "#757083",
-    flexDirection: "row",
-    borderColor: "#757083",
+    marginRight: 4,
   },
   input: {
     fontSize: 16,
-    // fontWeight: 300,
     color: "#757083",
-    // opacity: "50%",
+    flex: 1,
   },
-  
 
-  button: {
+  actionText: {
     fontSize: 16,
-    fontWeight: 600,
-    color: "#FFFFFF",
-    backgroundColor: "#757083",
+    fontWeight: 300,
+    color: "#757083",
+    opacity: 1,
   },
   colorOptionContainer: {
     flexDirection: "row",
@@ -206,6 +216,20 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     backgroundColor: "#B9C6AE",
   },
+
+  button: {
+    width: "88%",
+    padding: 10,
+    height: 60,
+
+    backgroundColor: "#757083",
+    borderRadius: 2,
+    alignItems: "center",
+    justifyContent: "center",
+
+    // backgroundColor: "yellow",
+  },
+  buttonText: { fontSize: 16, fontWeight: 600, color: "#FFFFFF" },
 });
 
 export default Screen1;

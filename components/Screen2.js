@@ -6,7 +6,9 @@ const Screen2 = ({ route, navigation }) => {
   const { color } = route.params;
 
   useEffect(() => {
-    navigation.setOptions({ title: name });
+    navigation.setOptions(
+      name ? { title: name } : { title: "No Name Entered" }
+    );
   }, []);
 
   return (
