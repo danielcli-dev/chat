@@ -3,12 +3,10 @@ import {
   StyleSheet,
   View,
   Text,
-  Button,
   TextInput,
   ImageBackground,
   TouchableOpacity,
   Image,
-  ScrollView,
   KeyboardAvoidingView,
   Platform,
 } from "react-native";
@@ -20,18 +18,26 @@ const Start = ({ navigation }) => {
   const icon = require("../assets/profile.png");
 
   useEffect(() => {
+    
+    // Sets the name at the top of the screen
     navigation.setOptions({ title: "Chat App" });
   }, []);
 
   return (
-    // <ScrollView style={{ height: "100%" }}>
 
+    // Set image background with resizeMode prop as cover
     <ImageBackground source={image} resizeMode="cover" style={styles.image}>
       <View style={styles.container}>
+
+        {/* Upper half of the screen */}
         <View style={styles.titleBox}>
           <Text style={styles.appTitle}>Chat App</Text>
         </View>
+
+        {/* Lower half of the screen */}
         <View style={styles.actionBox}>
+
+          {/* Input box contains icon and actual input field */}
           <View style={styles.inputBox}>
             <Image style={styles.icon} source={icon} />
             <TextInput
@@ -44,6 +50,9 @@ const Start = ({ navigation }) => {
           <View>
             <Text style={styles.actionText}>Choose Background Color:</Text>
             <View style={styles.colorOptionContainer}>
+              {/* All color icons have a view with white background and a touchable opacity for their unique colors*/}
+
+              {/* Touchable opacity has a setColor function to update the state of color. The conditional operator will add the colorOptionActive style to the array if color matches correct hex color */}
               <View
                 style={[
                   styles.colorOptionOuter,
@@ -98,16 +107,21 @@ const Start = ({ navigation }) => {
               </View>
             </View>
           </View>
+
+          {/* Touchable Opacity has an onPress prop that trigger arrow function containing navigate function to go to Chat screen with params name and color */}
           <TouchableOpacity
             style={styles.button}
             onPress={() =>
               navigation.navigate("Chat", { name: name, color: color })
             }
           >
+
+            {/* Inner text of touchable opacity */}
             <Text style={styles.buttonText}>Start Chatting</Text>
           </TouchableOpacity>
         </View>
 
+        {/* Conditional operator add the KeyboardAvoidingView component if mobile OS used is an Andriod */}
         {Platform.OS === "android" ? (
           <KeyboardAvoidingView behavior="height" />
         ) : null}
@@ -116,6 +130,7 @@ const Start = ({ navigation }) => {
   );
 };
 
+// StyleSheet with different styles
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -139,7 +154,6 @@ const styles = StyleSheet.create({
 
   actionBox: {
     height: 275,
-    // height: "88%",
     alignItems: "center",
     backgroundColor: "#FFFFFF",
     width: "88%",
