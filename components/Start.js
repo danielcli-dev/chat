@@ -9,9 +9,11 @@ import {
   TouchableOpacity,
   Image,
   ScrollView,
+  KeyboardAvoidingView,
+  Platform,
 } from "react-native";
 
-const Screen1 = ({ navigation }) => {
+const Start = ({ navigation }) => {
   const [name, setName] = useState("");
   const [color, setColor] = useState("");
   const image = require("../assets/BackgroundImage.png");
@@ -99,12 +101,16 @@ const Screen1 = ({ navigation }) => {
           <TouchableOpacity
             style={styles.button}
             onPress={() =>
-              navigation.navigate("Screen2", { name: name, color: color })
+              navigation.navigate("Chat", { name: name, color: color })
             }
           >
             <Text style={styles.buttonText}>Start Chatting</Text>
           </TouchableOpacity>
         </View>
+
+        {Platform.OS === "android" ? (
+          <KeyboardAvoidingView behavior="height" />
+        ) : null}
       </View>
     </ImageBackground>
   );
@@ -132,20 +138,18 @@ const styles = StyleSheet.create({
   },
 
   actionBox: {
-    height: "44%",
+    height: 275,
+    // height: "88%",
     alignItems: "center",
     backgroundColor: "#FFFFFF",
     width: "88%",
     justifyContent: "space-evenly",
-    // paddingVertical: 10
   },
 
   inputBox: {
     width: "88%",
     padding: 15,
     borderWidth: 1.5,
-    // marginTop: 1,
-    // marginBottom: 15,
     fontSize: 16,
     color: "#757083",
     flexDirection: "row",
@@ -193,7 +197,6 @@ const styles = StyleSheet.create({
     width: 40,
     borderRadius: 20,
     backgroundColor: "#090C08",
-    // backgroundColor: "green",
   },
 
   option2: {
@@ -226,10 +229,8 @@ const styles = StyleSheet.create({
     borderRadius: 2,
     alignItems: "center",
     justifyContent: "center",
-
-    // backgroundColor: "yellow",
   },
   buttonText: { fontSize: 16, fontWeight: 600, color: "#FFFFFF" },
 });
 
-export default Screen1;
+export default Start;
