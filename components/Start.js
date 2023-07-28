@@ -10,25 +10,39 @@ import {
   KeyboardAvoidingView,
   Platform,
 } from "react-native";
+import { getAuth, signInAnonymously } from "firebase/auth";
 
 const Start = ({ navigation }) => {
   const [name, setName] = useState("");
   const [color, setColor] = useState("");
   const image = require("../assets/BackgroundImage.png");
   const icon = require("../assets/profile.png");
+  const auth = getAuth();
 
   useEffect(() => {
-    
     // Sets the name at the top of the screen
     navigation.setOptions({ title: "Chat App" });
   }, []);
 
-  return (
+  const signInUser = () => {
+    signInAnonymously(auth)
+      .then((result) => {
+        navigation.navigate("Chat", {
+          name: name,
+          color: color,
+          userID: result.user.uid,
+        });
+        Alert.alert("Signed in Successfully!");
+      })
+      .catch((error) => {
+        Alert.alert("Unable to sign in, try later again.");
+      });
+  };
 
+  return (
     // Set image background with resizeMode prop as cover
     <ImageBackground source={image} resizeMode="cover" style={styles.image}>
       <View style={styles.container}>
-
         {/* Upper half of the screen */}
         <View style={styles.titleBox}>
           <Text style={styles.appTitle}>Chat App</Text>
@@ -36,7 +50,6 @@ const Start = ({ navigation }) => {
 
         {/* Lower half of the screen */}
         <View style={styles.actionBox}>
-
           {/* Input box contains icon and actual input field */}
           <View style={styles.inputBox}>
             <Image style={styles.icon} source={icon} />
@@ -109,13 +122,7 @@ const Start = ({ navigation }) => {
           </View>
 
           {/* Touchable Opacity has an onPress prop that trigger arrow function containing navigate function to go to Chat screen with params name and color */}
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() =>
-              navigation.navigate("Chat", { name: name, color: color })
-            }
-          >
-
+          <TouchableOpacity style={styles.button} onPress={signInUser}>
             {/* Inner text of touchable opacity */}
             <Text style={styles.buttonText}>Start Chatting</Text>
           </TouchableOpacity>
