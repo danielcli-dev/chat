@@ -1,61 +1,39 @@
 import { useState, useEffect } from "react";
-import {
-  KeyboardAvoidingView,
-  Platform,
-  StyleSheet,
-  View,
-  Alert,
-} from "react-native";
+import { KeyboardAvoidingView, Platform, StyleSheet, View } from "react-native";
 import { Bubble, GiftedChat } from "react-native-gifted-chat";
 import {
   collection,
-  getDocs,
   addDoc,
   onSnapshot,
   query,
-  where,
   orderBy,
+  Timestamp,
 } from "firebase/firestore";
 
 const Chat = ({ route, navigation, db }) => {
   // Assigning params to variables
-  const { name } = route.params;
-  const { color } = route.params;
-  const { userID } = route.params;
+  const { name, color, userID } = route.params;
 
   // Create messages array for holding list of messages
   const [messages, setMessages] = useState([]);
 
-  // const addMessage = async (newMessage) => {
-  //   const newMessageRef = await addDoc(collection(db, "messages"), newMessage);
-  //   if (newMessageRef.id) {
-  //     Alert.alert(`The message "${listMessage}" has been added.`);
-  //   } else {
-  //     Alert.alert("Unable to add. Please try later");
-  //   }
-  // };
-
-  // const fetchMessages = async () => {
-  //   const listsDocuments = await getDocs(collection(db, "messages"));
-  //   let newMessages = [];
-  //   listsDocuments.forEach((docObject) => {
-  //     newMessages.push({ id: docObject.id, ...docObject.data() });
-  //   });
-  //   setMessages(newMessages);
-  // };
-
+  // useEffect to setup initial name of the chat room
   useEffect(() => {
+    navigation.setOptions(
+      {title: "Chat Room" }
+    );
+
     // onSnapshot is like an event listener looking for changes in your db collection named "messages", if triggered, will run the function
     const unsubMessages = onSnapshot(
       query(collection(db, "messages"), orderBy("createdAt", "desc")),
-      (documentsSnapshot) => {
+      (docs) => {
         let newMessages = [];
         // For each document, it will push the message with id, data, and createdAt.
-        documentsSnapshot.forEach((doc) => {
+        docs.forEach((doc) => {
           newMessages.push({
             id: doc.id,
             ...doc.data(),
-            createdAt: new Date(doc.data().createdAt.toMillis()),
+            createdAt: new Date(doc.data().createdAt.toMillis())
           });
         });
         setMessages(newMessages);
@@ -69,9 +47,6 @@ const Chat = ({ route, navigation, db }) => {
 
   // Use pass callback function into setMessages to take current array and append new messages to it
   const onSend = (newMessages) => {
-    // setMessages((previousMessages) =>
-    //   GiftedChat.append(previousMessages, newMessages)
-    // );
     addDoc(collection(db, "messages"), newMessages[0]);
   };
 
@@ -91,33 +66,6 @@ const Chat = ({ route, navigation, db }) => {
       />
     );
   };
-
-  // useEffect to setup initial name of the screen
-  useEffect(() => {
-    navigation.setOptions(
-      name ? { title: `${name}'s Chat Room` } : { title: "No Name Entered" }
-    );
-
-    // setMessages function to update state of messages
-    // setMessages([
-    //   {
-    //     _id: 1,
-    //     text: "Hello developer",
-    //     createdAt: new Date(),
-    //     user: {
-    //       _id: 2,
-    //       name: "React Native",
-    //       avatar: "https://placeimg.com/140/140/any",
-    //     },
-    //   },
-    //   {
-    //     _id: 2,
-    //     text: name ? `${name} has entered chat` : "User has entered chat",
-    //     createdAt: new Date(),
-    //     system: true,
-    //   },
-    // ]);
-  }, []);
 
   return (
     <View style={[styles.container, { backgroundColor: color }]}>

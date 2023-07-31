@@ -9,6 +9,7 @@ import {
   Image,
   KeyboardAvoidingView,
   Platform,
+  Alert
 } from "react-native";
 import { getAuth, signInAnonymously } from "firebase/auth";
 
@@ -24,9 +25,11 @@ const Start = ({ navigation }) => {
     navigation.setOptions({ title: "Chat App" });
   }, []);
 
+  // Function for signing in anonymously through Google
   const signInUser = () => {
     signInAnonymously(auth)
       .then((result) => {
+        // Navigated to Chat screen while passing params through route
         navigation.navigate("Chat", {
           name: name,
           color: color,

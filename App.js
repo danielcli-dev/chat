@@ -29,6 +29,7 @@ const App = () => {
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Start">
         <Stack.Screen name="Start" component={Start} />
+        {/* Different method of using Stack.Screen with props */}
         <Stack.Screen name="Chat">
           {(props) => <Chat db={db} {...props} />}
         </Stack.Screen>
