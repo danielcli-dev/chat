@@ -15,10 +15,11 @@ import {
   orderBy,
   Timestamp,
 } from "firebase/firestore";
-
+import CustomActions from "./CustomActions";
+import MapView from "react-native-maps";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const Chat = ({ route, navigation, db, isConnected }) => {
+const Chat = ({ route, navigation, db, storage, isConnected }) => {
   // Assigning params to variables
   const { name, color, userID } = route.params;
 
@@ -71,6 +72,7 @@ const Chat = ({ route, navigation, db, isConnected }) => {
     const cachedMessages = (await AsyncStorage.getItem("messages")) || [];
     setMessages(JSON.parse(cachedMessages));
   };
+
   // Use pass callback function into setMessages to take current array and append new messages to it
   const onSend = (newMessages) => {
     if (isConnected === true) {
@@ -101,6 +103,37 @@ const Chat = ({ route, navigation, db, isConnected }) => {
     if (isConnected) return <InputToolbar {...props} />;
     else return null;
   };
+
+  const renderCustomActions = (props) => {
+    return (
+      <CustomActions
+        onSend={onSend}
+        userID={userID}
+        storage={storage}
+        {...props}
+      />
+    );
+  };
+
+  const renderCustomView = (props) => {
+    // currentMessage is specific to Gifted Chat, you cannot use another constant
+    const { currentMessage } = props;
+    if (currentMessage.location) {
+      return (
+        <MapView
+          style={{ width: 300, height: 200 }}
+          region={{
+            latitude: currentMessage.location.latitude,
+            longitude: currentMessage.location.longitude,
+            latitudeDelta: 0.0922,
+            longitudeDelta: 0.0421,
+          }}
+        />
+      );
+    }
+    return null;
+  };
+
   return (
     <View style={[styles.container, { backgroundColor: color }]}>
       {/* GiftedChat component with array of messages, renderBubble setttings, onSend function, and user id */}
@@ -110,6 +143,8 @@ const Chat = ({ route, navigation, db, isConnected }) => {
         renderInputToolbar={renderInputToolbar}
         onSend={(messages) => onSend(messages)}
         user={{ _id: userID, name: name }}
+        renderActions={renderCustomActions}
+        renderCustomView={renderCustomView}
       />
 
       {/* Conditional operator add the KeyboardAvoidingView component if mobile OS used is an Andriod */}

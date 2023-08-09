@@ -19,6 +19,7 @@ import {
   disableNetwork,
   enableNetwork,
 } from "firebase/firestore";
+import { getStorage } from "firebase/storage";
 
 const firebaseConfig = {
   apiKey: "AIzaSyAUbzH-mqrcCIGBW-FrJsZel_7P9ErECyo",
@@ -32,7 +33,7 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
-
+const storage = getStorage(app);
 // Create the navigator
 const Stack = createNativeStackNavigator();
 
@@ -57,6 +58,7 @@ const App = () => {
           {(props) => (
             <Chat
               db={db}
+              storage={storage}
               isConnected={connectionStatus.isConnected}
               {...props}
             />
