@@ -1,8 +1,10 @@
-import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
+import { View, Text, TouchableOpacity, StyleSheet, Alert } from "react-native";
 import { useActionSheet } from "@expo/react-native-action-sheet";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import * as ImagePicker from "expo-image-picker";
 import * as Location from "expo-location";
+import { Audio } from "expo-av";
+import { useEffect } from "react";
 
 const CustomActions = ({
   wrapperStyle,
@@ -11,8 +13,15 @@ const CustomActions = ({
   userID,
   onSend,
 }) => {
-  const actionSheet = useActionSheet();
+  useEffect(() => {
+    return () => {
+      if (recordingObject) recordingObject.stopAndUnloadAsync();
+    };
+  }, []);
 
+  const actionSheet = useActionSheet();
+  // recordingObject represents reference to recording object returned
+  let recordingObject = null;
   //   const newUploadRef = ref(storage, "image123");
   const generateReference = (uri) => {
     const timeStamp = new Date().getTime();
@@ -69,6 +78,7 @@ const CustomActions = ({
 
     if (permissions?.granted) {
       //   const location = await Location.getCurrentPositionAsync({});
+      // await are for functions that are waiting for user to provide image, audo, or location
       let result = await Location.getCurrentPositionAsync({});
       if (!result.canceled) {
         await uploadAndSendLocation(result);
@@ -80,11 +90,76 @@ const CustomActions = ({
     }
   };
 
+  const startRecording = async () => {
+    try {
+      let permissions = await Audio.requestPermissionsAsync();
+      if (permissions?.granted) {
+        // iOS specific config to allow recording on iPhone devices
+        await Audio.setAudioModeAsync({
+          allowsRecordingIOS: true,
+          playsInSilentModeIOS: true,
+        });
+
+        Audio.Recording.createAsync(Audio.RecordingOptionsPresets.HIGH_QUALITY)
+          .then((results) => {
+            return results.recording;
+          })
+          .then((recording) => {
+            recordingObject = recording;
+            Alert.alert(
+              "You are recording...",
+              undefined,
+              [
+                {
+                  text: "Cancel",
+                  onPress: () => {
+                    stopRecording();
+                  },
+                },
+                {
+                  text: "Stop and Send",
+                  onPress: () => {
+                    sendRecordedSound();
+                  },
+                },
+              ],
+              { cancelable: false }
+            );
+          });
+      }
+    } catch (err) {
+      Alert.alert("Failed to record!");
+    }
+  };
+
+  const stopRecording = async () => {
+    await Audio.setAudioModeAsync({
+      allowsRecordingIOS: false,
+      playsInSilentModeIOS: false,
+    });
+    await recordingObject.stopAndUnloadAsync();
+  };
+
+  const sendRecordedSound = async () => {
+    await stopRecording();
+    const uniqueRefString = generateReference(recordingObject.getURI());
+    const newUploadRef = ref(storage, uniqueRefString);
+    const response = await fetch(recordingObject.getURI());
+    const blob = await response.blob();
+    uploadBytes(newUploadRef, blob).then(async (snapshot) => {
+      const soundURL = await getDownloadURL(snapshot.ref);
+      // Gifted Chat does not directly support {audio: soundURL}
+      // onSend({ text: "YOOO" });
+      onSend({ audioClip: soundURL });
+    });
+  };
+
   const onActionPress = () => {
     const options = [
       "Choose From Library",
       "Take Picture",
       "Send Location",
+      "Record a Sound",
       "Cancel",
     ];
     const cancelButtonIndex = options.length - 1;
@@ -107,6 +182,11 @@ const CustomActions = ({
           case 2:
             console.log("user wants to get their location");
             getLocation();
+            return;
+          case 3:
+            console.log("user wants to record audio");
+            startRecording();
+            return;
           default:
         }
       }
