@@ -142,11 +142,12 @@ const Chat = ({ route, navigation, db, storage, isConnected }) => {
     }
 
     if (currentMessage.audioClip) {
+      // renderMessageAudio(currentMessage);
       return (
         <View>
-          {/* <View {...props}> */}
           <TouchableOpacity
-            style={{ backgroundColor: "#FF0", borderRadius: 10, margin: 5 }}
+          
+            style={{ backgroundColor: "#30da20", borderRadius: 10, margin: 5 }}
             onPress={async () => {
               if (soundObject) soundObject.unloadAsync();
               const { sound } = await Audio.Sound.createAsync({
@@ -167,15 +168,15 @@ const Chat = ({ route, navigation, db, storage, isConnected }) => {
     return null;
   };
 
-  // const renderMessageAudio = (props) => {
+  // const renderMessageAudio = (message) => {
   //   return (
-  //     <View {...props}>
+  //     <View>
   //       <TouchableOpacity
   //         style={{ backgroundColor: "#FF0", borderRadius: 10, margin: 5 }}
   //         onPress={async () => {
   //           if (soundObject) soundObject.unloadAsync();
   //           const { sound } = await Audio.Sound.createAsync({
-  //             uri: props.currentMessage.audio,
+  //             uri: message.audio,
   //           });
   //           soundObject = sound;
   //           await sound.playAsync();

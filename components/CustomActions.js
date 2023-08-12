@@ -23,33 +23,6 @@ const CustomActions = ({
   // recordingObject represents reference to recording object returned
   let recordingObject = null;
   //   const newUploadRef = ref(storage, "image123");
-  const generateReference = (uri) => {
-    const timeStamp = new Date().getTime();
-    const imageName = uri.split("/")[uri.split("/").length - 1];
-    return `${userID}-${timeStamp}-${imageName}`;
-  };
-
-  const uploadAndSendImage = async (imageURI) => {
-    // const imageURI = result.assets[0].uri;
-    const uniqueRefString = generateReference(imageURI);
-    const response = await fetch(imageURI);
-    const blob = await response.blob();
-    const newUploadRef = ref(storage, uniqueRefString);
-    uploadBytes(newUploadRef, blob).then(async (snapshot) => {
-      console.log("File has been uploaded successfully");
-      const imageURL = await getDownloadURL(snapshot.ref);
-      onSend({ image: imageURL });
-    });
-  };
-
-  const uploadAndSendLocation = async (currentLocation) => {
-    onSend({
-      location: {
-        longitude: currentLocation.coords.longitude,
-        latitude: currentLocation.coords.latitude,
-      },
-    });
-  };
 
   const pickImage = async () => {
     let permissions = await ImagePicker.requestMediaLibraryPermissionsAsync();
@@ -100,11 +73,14 @@ const CustomActions = ({
           playsInSilentModeIOS: true,
         });
 
+        // Creating a new Audio file
         Audio.Recording.createAsync(Audio.RecordingOptionsPresets.HIGH_QUALITY)
           .then((results) => {
+            // createAsync return an object with prop recording
             return results.recording;
           })
           .then((recording) => {
+            // assigns the recording to the constant recording Object
             recordingObject = recording;
             Alert.alert(
               "You are recording...",
@@ -137,7 +113,36 @@ const CustomActions = ({
       allowsRecordingIOS: false,
       playsInSilentModeIOS: false,
     });
+    // stops recording and removes the recorder from device memory
     await recordingObject.stopAndUnloadAsync();
+  };
+
+  const generateReference = (uri) => {
+    const timeStamp = new Date().getTime();
+    const imageName = uri.split("/")[uri.split("/").length - 1];
+    return `${userID}-${timeStamp}-${imageName}`;
+  };
+
+  const uploadAndSendImage = async (imageURI) => {
+    // const imageURI = result.assets[0].uri;
+    const uniqueRefString = generateReference(imageURI);
+    const response = await fetch(imageURI);
+    const blob = await response.blob();
+    const newUploadRef = ref(storage, uniqueRefString);
+    uploadBytes(newUploadRef, blob).then(async (snapshot) => {
+      console.log("File has been uploaded successfully");
+      const imageURL = await getDownloadURL(snapshot.ref);
+      onSend({ image: imageURL });
+    });
+  };
+
+  const uploadAndSendLocation = async (currentLocation) => {
+    onSend({
+      location: {
+        longitude: currentLocation.coords.longitude,
+        latitude: currentLocation.coords.latitude,
+      },
+    });
   };
 
   const sendRecordedSound = async () => {
@@ -147,6 +152,8 @@ const CustomActions = ({
     const response = await fetch(recordingObject.getURI());
     const blob = await response.blob();
     uploadBytes(newUploadRef, blob).then(async (snapshot) => {
+      // After uploading the blob to Google Storage, take returned promise with ref property and use getDownloadURL to retrieve the URL for it
+      // The URL is what you want to save in your messages collection so you can use it when reading the individual messages
       const soundURL = await getDownloadURL(snapshot.ref);
       // Gifted Chat does not directly support {audio: soundURL}
       // onSend({ text: "YOOO" });
@@ -194,7 +201,14 @@ const CustomActions = ({
   };
 
   return (
-    <TouchableOpacity style={styles.container} onPress={onActionPress}>
+    <TouchableOpacity
+      accessible={true}
+      accessibilityLabel="More options"
+      accessibilityHint="Let's you choose to send an image, audio, or your geolocation"
+      accessibilityRole="button"
+      style={styles.container}
+      onPress={onActionPress}
+    >
       <View style={[styles.wrapper, wrapperStyle]}>
         <Text style={[styles.iconText, iconTextStyle]}>+</Text>
       </View>

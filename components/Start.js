@@ -9,7 +9,7 @@ import {
   Image,
   KeyboardAvoidingView,
   Platform,
-  Alert
+  Alert,
 } from "react-native";
 import { getAuth, signInAnonymously } from "firebase/auth";
 
@@ -57,6 +57,10 @@ const Start = ({ navigation }) => {
           <View style={styles.inputBox}>
             <Image style={styles.icon} source={icon} />
             <TextInput
+              accessible={true}
+              accessibilityLabel="input - username"
+              accessibilityHint="Sets your username for chatroom"
+              accessibilityRole="input"
               style={styles.input}
               value={name}
               onChangeText={setName}
@@ -76,6 +80,10 @@ const Start = ({ navigation }) => {
                 ]}
               >
                 <TouchableOpacity
+                  accessible={true}
+                  accessibilityLabel="button - background color black"
+                  accessibilityHint="Sets the background color of chatroom"
+                  accessibilityRole="button"
                   style={styles.option1}
                   onPress={() => {
                     setColor("#090C08");
@@ -89,6 +97,10 @@ const Start = ({ navigation }) => {
                 ]}
               >
                 <TouchableOpacity
+                  accessible={true}
+                  accessibilityLabel="button - background color dark grey"
+                  accessibilityHint="Sets the background color of chatroom"
+                  accessibilityRole="button"
                   style={styles.option2}
                   onPress={() => {
                     setColor("#474056");
@@ -102,6 +114,10 @@ const Start = ({ navigation }) => {
                 ]}
               >
                 <TouchableOpacity
+                  accessible={true}
+                  accessibilityLabel="button - background color grey blue"
+                  accessibilityHint="Sets the background color of chatroom"
+                  accessibilityRole="button"
                   style={styles.option3}
                   onPress={() => {
                     setColor("#8A95A5");
@@ -115,6 +131,10 @@ const Start = ({ navigation }) => {
                 ]}
               >
                 <TouchableOpacity
+                  accessible={true}
+                  accessibilityLabel="button - background color light green"
+                  accessibilityHint="Sets the background color of chatroom"
+                  accessibilityRole="button"
                   style={styles.option4}
                   onPress={() => {
                     setColor("#B9C6AE");
@@ -125,7 +145,14 @@ const Start = ({ navigation }) => {
           </View>
 
           {/* Touchable Opacity has an onPress prop that trigger arrow function containing navigate function to go to Chat screen with params name and color */}
-          <TouchableOpacity style={styles.button} onPress={signInUser}>
+          <TouchableOpacity
+            accessible={true}
+            accessibilityLabel="button - start chatting"
+            accessibilityHint="Logs in and enters the chatroom"
+            accessibilityRole="button"
+            style={styles.button}
+            onPress={signInUser}
+          >
             {/* Inner text of touchable opacity */}
             <Text style={styles.buttonText}>Start Chatting</Text>
           </TouchableOpacity>
