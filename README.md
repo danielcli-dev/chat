@@ -56,8 +56,10 @@ To install Android Studio, download at https://developer.android.com/studio
 8. Make sure Android SDK Build-Tools is installed.
 9. Click Apply
 
-**For Windows Users:**\
-**AMD CPU Users Only:** Enable and install Android Emulator Hypervisor Driver for AMD processors. If it's not already installed, tick its box and apply it.\
+**For Windows Users:**
+
+**AMD CPU Users Only:** Enable and install Android Emulator Hypervisor Driver for AMD processors. If it's not already installed, tick its box and apply it.
+
 **Intel CPU Users Only:** Enable and install Intel x86 Emulator Accelerator(HAXM installer). If it's not already installed, tick its box and apply it.
 
 **For MacOS Users:**
@@ -78,19 +80,15 @@ Close SDK Manager window by pressing OK.
 1. From your Android Studio welcome screen, click More Actions again, followed by Virtual Device Manager:
 2. Select Create Virtual Device, which will open a new window where you can choose your virtual device. A variety of devices are available. Pick whichever mobile phone device has a Google Play Store icon next to it and is not too old.
 3. Click next.
-4. At the System Image interface, click on Recommended tab and select system image that
+4. At the System Image interface, click on Recommended tab and select system image that:
 - includes Google Play store in it
 - has the same API level as the system image you downloaded earlier (e.g. 32).
-
-If an option is not selectable, just download it by clicking download icon next to it.
-
-5. Once done, click Next
-
-6. A new window will appear that displays the final specs of the emulator that you’ll create.
+5. If an option is not selectable, just download it by clicking download icon next to it.
+6. Once done, click Next.
+7. A new window will appear that displays the final specs of the emulator that you’ll create.
 Go ahead and click on Show Advanced Settings to change your emulator’s storage size. Scroll down to the Memory and Storage section, and adjust the values of Internal Storage and SD card to 4096 MB each.
-7. Once done, click Finish.
-
-8. Start Your Emulator. Click Play to start your newly created emulator. Your selected device will be rendered on your screen, ready to emulate your code!
+8. Once done, click Finish.
+9. Start Your Emulator. Click Play to start your newly created emulator. Your selected device will be rendered on your screen, ready to emulate your code!
 
 After you run npx expo start in terminal, it will start the Expo Metro Bundler. Press a for android or i for iOS to have the bundler search for your emulators and to serve the app to the emulator.
 
