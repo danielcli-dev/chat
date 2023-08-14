@@ -1,8 +1,8 @@
-# Project description
+# Project Description
 
 Chat App is used to communicate with other users through messaging that is displayed in a chatroom format.
 
-# How to get the project running
+# How to Get the Project Running
 
 The app can be accessed through the expo app on your mobile device or by using an emulator such as Android Studio.
 
@@ -92,7 +92,7 @@ Go ahead and click on Show Advanced Settings to change your emulator’s storage
 
 After you run npx expo start in terminal, it will start the Expo Metro Bundler. Press a for android or i for iOS to have the bundler search for your emulators and to serve the app to the emulator.
 
-# Project dependencies
+# Project Dependencies
 - expo
 - expo-status-bar
 - expo-image-picker
@@ -111,6 +111,6 @@ After you run npx expo start in terminal, it will start the Expo Metro Bundler. 
 - @react-native-async-storage/async-storage
 - react-native-maps
 
-# Which API the project uses
+# Which API the Project Uses
 
 Firebase
