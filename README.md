@@ -24,16 +24,12 @@ Log into Expo through terminal by running:
 expo login
 ```
 
-If you want to serve app on mobile device, make sure phone and computer are ont he same network and down Expo Go app on your phone.
-
-Run:
-
+If you want to serve app on mobile device, make sure phone and computer are on the same network and download the Expo Go app on your phone. Then in the terminal run:
 ```bash
 npx expo start
 ```
 
-You should find the project under Development Servers. If not displayed, scan the QR Code provided in the terminal.
-If still not working, click on Send link with email option and open email on your phone.
+You should find the project under Development Servers on your phone. If not displayed, scan the QR Code provided in the terminal. If it is still not working, click on Send link with email option and open email on your phone.
 
 ## Getting Started with Android Studio
 
@@ -52,9 +48,7 @@ To install Android Studio, download at https://developer.android.com/studio
 1. Click More Actions -> SDK Manager.
 2. Check Show Package Details.
 3. Check which Android SDK Platform is installed by default.
-4. Select the corresponding Google Play System Image to install (Ensure Google Play System Image selected matches your OS).
-
-For example, if you see "Android 12L" SDK Platform is installed which is Android SDK Platform 32.
+4. Select the corresponding Google Play System Image to install (Ensure Google Play System Image selected matches your OS). For example, if you see "Android 12L" SDK Platform is installed which is Android SDK Platform 32.
 
 5. You will also install Google Play System Image of the same API level (32) which is also OS-specific (e.g. Google Play ARM 64 v8a System Image).
 6. Click Apply button
@@ -62,9 +56,9 @@ For example, if you see "Android 12L" SDK Platform is installed which is Android
 8. Make sure Android SDK Build-Tools is installed.
 9. Click Apply
 
-**For Windows Users:**
-AMD CPU Users Only: Enable and install Android Emulator Hypervisor Driver for AMD processors. If it's not already installed, tick its box and apply it.
-Intel CPU Users Only: Enable and install Intel x86 Emulator Accelerator(HAXM installer). If it's not already installed, tick its box and apply it.
+**For Windows Users:**\
+**AMD CPU Users Only:** Enable and install Android Emulator Hypervisor Driver for AMD processors. If it's not already installed, tick its box and apply it.\
+**Intel CPU Users Only:** Enable and install Intel x86 Emulator Accelerator(HAXM installer). If it's not already installed, tick its box and apply it.
 
 **For MacOS Users:**
 Add the location of Android SFK to your PATH.
