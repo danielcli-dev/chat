@@ -93,24 +93,23 @@ Go ahead and click on Show Advanced Settings to change your emulator’s storage
 After you run npx expo start in terminal, it will start the Expo Metro Bundler. Press a for android or i for iOS to have the bundler search for your emulators and to serve the app to the emulator.
 
 # Project dependencies
-
-expo
-expo-status-bar
-expo-image-picker
-expo-media-library
-expo-location
-expo-av
-firebase
-react
-react-native
-react-native-gifted-chat
-react-native-screens
-react-native-safe-area-context
-@react-navigation/native
-@react-navigation/native-stack
-@react-native-community/netinfo
-@react-native-async-storage/async-storage
-react-native-maps
+- expo
+- expo-status-bar
+- expo-image-picker
+- expo-media-library
+- expo-location
+- expo-av
+- firebase
+- react
+- react-native
+- react-native-gifted-chat
+- react-native-screens
+- react-native-safe-area-context
+- @react-navigation/native
+- @react-navigation/native-stack
+- @react-native-community/netinfo
+- @react-native-async-storage/async-storage
+- react-native-maps
 
 # Which API the project uses
 
