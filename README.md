@@ -92,6 +92,28 @@ Go ahead and click on Show Advanced Settings to change your emulator’s storage
 
 After you run npx expo start in terminal, it will start the Expo Metro Bundler. Press a for android or i for iOS to have the bundler search for your emulators and to serve the app to the emulator.
 
+## Getting Started with Google Firebase
+
+**Firestore Database**
+1. Log into Google Firebase at https://firebase.google.com/
+2. Create a project
+3. Click Build, Firestore Database, then click Create Database.
+4. Start in production mode.
+5. For location, choose the closest Multi-region.
+6. Click Rules, and change allow read, write: if false; to allow read, write: if true;
+7. Click Publish.
+
+**Storage**
+
+1. Click Build, then click Storage, then Get Started.
+2. Keep everything on default, then click Next, then Done.
+3. Click Rules, and change allow read, write: if false; to allow read, write: if true;
+
+**If you want to update the app to use your Google Firestore Database and Storage**
+1. On the left navigation bar, click the gear icon next to Project Overview.
+2. Click Project Settings, scroll down to SDK setup and configuration, and select Config.
+3. Copy the configuration object firebaseConfig and replace within the App.js file. 
+
 # Project Dependencies
 - expo
 - expo-status-bar
