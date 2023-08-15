@@ -60,7 +60,6 @@ const Start = ({ navigation }) => {
               accessible={true}
               accessibilityLabel="input - username"
               accessibilityHint="Sets your username for chatroom"
-              accessibilityRole="input"
               style={styles.input}
               value={name}
               onChangeText={setName}
