@@ -22,7 +22,6 @@ const CustomActions = ({
   const actionSheet = useActionSheet();
   // recordingObject represents reference to recording object returned
   let recordingObject = null;
-  //   const newUploadRef = ref(storage, "image123");
 
   const pickImage = async () => {
     let permissions = await ImagePicker.requestMediaLibraryPermissionsAsync();
@@ -50,7 +49,6 @@ const CustomActions = ({
     let permissions = await Location.requestForegroundPermissionsAsync();
 
     if (permissions?.granted) {
-      //   const location = await Location.getCurrentPositionAsync({});
       // await are for functions that are waiting for user to provide image, audo, or location
       let result = await Location.getCurrentPositionAsync({});
       if (!result.canceled) {
@@ -156,7 +154,6 @@ const CustomActions = ({
       // The URL is what you want to save in your messages collection so you can use it when reading the individual messages
       const soundURL = await getDownloadURL(snapshot.ref);
       // Gifted Chat does not directly support {audio: soundURL}
-      // onSend({ text: "YOOO" });
       onSend({ audioClip: soundURL });
     });
   };
